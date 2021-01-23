@@ -9,7 +9,7 @@ function App() {
   const [params, setParams] = useState({})
   const [page, setPage] = useState(1)
   const {jobs, loading, error} = useFetchJobs(params, page)
-
+console.log(jobs)
   return (
     <Container>
     {loading && <h1>Loading...</h1>}
