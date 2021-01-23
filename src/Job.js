@@ -7,7 +7,7 @@ const Job = ({job}) => {
     const [open, setOpen] = useState(false)
 
     return (
-        <Card>
+        <Card className="mb-3">
         <Card.Body>
             <div className="d-flex justify-content-between">
                 <div>
@@ -26,7 +26,7 @@ const Job = ({job}) => {
                 <img className="d-none d-md-block" height='50' src={job.company_logo} alt={job.company}/>
             </div>
             <Card.Text>
-                <Button onClick={() => setOpen(prev => !prev)} variant="primary">View Details</Button>
+                <Button onClick={() => setOpen(prev => !prev)} variant="primary">{!open ? 'View Details' : 'Hide Details'}</Button>
             </Card.Text>
             <Collapse in={open}>
             <div className="mt-4">
