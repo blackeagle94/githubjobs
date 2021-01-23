@@ -38,12 +38,22 @@ const useFetchJobs = (params, page) => {
     const [state, dispatch] = useReducer(reducer, {jobs: [], loading:true})
 
     useEffect(() => {
+        const cancelToken = axios.CancelToken.source()
         dispatch({type: ACTIONS.MAKE_REQUEST})
         axios.get(BASE_URL, {
+            cancelToken: cancelToken.token,
             params: {markdown: true, page: page, ...params}
         })
         .then(res => dispatch({type:ACTIONS.GET_DATA, payload: {jobs: res.data}}))
-        .catch(err => dispatch({type:ACTIONS.ERROR, payload: {error: err}}))
+        .catch(err =>{
+            if(axios.isCancel(err)) return
+            dispatch({type:ACTIONS.ERROR, payload: {error: err}})
+        })
+
+        return () => {
+            cancelToken.cancel()
+        }
+        
     }, [params, page])
 
     return state
